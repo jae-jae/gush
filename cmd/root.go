@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"gush/parser"
 	"os"
 
 	"github.com/spf13/viper"
@@ -75,8 +76,13 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println("Error: cannot read configuration file (" + err.Error() + ")")
+		fmt.Println("Error: error reading configuration file (" + err.Error() + ")")
 		os.Exit(1)
 	}
+	if err := parser.ParseConfig(); err != nil {
+		fmt.Println("Error: error parsing configuration file (" + err.Error() + ")")
+		os.Exit(1)
+	}
+
 	fmt.Println("Using config file:", viper.ConfigFileUsed())
 }

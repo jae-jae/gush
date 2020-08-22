@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"gush/parser"
+	"os"
 )
 
 // deployCmd represents the deploy command
@@ -32,8 +33,29 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("deploy called")
-		fmt.Printf("%#v\n", parser.TaskConfig["default"])
+		task := "default"
+		server := "default"
+		if len(args) == 2 {
+			task, server = args[0], args[1]
+		} else if len(args) == 1 {
+			task = args[0]
+		}
+
+		serverConfig, ok := parser.ServerConfig[server]
+		if !ok {
+			fmt.Println("Error: undefined server " + server)
+			os.Exit(1)
+		}
+
+		taskConfig, ok := parser.TaskConfig[task]
+		if !ok {
+			fmt.Println("Error: undefined task " + task)
+			os.Exit(1)
+		}
+
+		fmt.Printf("%#v\n", serverConfig)
+		fmt.Printf("%#v\n", taskConfig)
+
 	},
 }
 

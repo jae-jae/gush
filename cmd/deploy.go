@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"gush/parser"
+	"gush/ssh"
 	"os"
 )
 
@@ -56,6 +57,10 @@ to quickly create a Cobra application.`,
 		fmt.Printf("%#v\n", serverConfig)
 		fmt.Printf("%#v\n", taskConfig)
 
+		fmt.Println("Connecting to the server...")
+		client := sshConn(serverConfig)
+		b, _ := client.Run("ls -la")
+		fmt.Println(string(b))
 	},
 }
 
@@ -71,4 +76,14 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// deployCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func sshConn(config parser.ServerInfo) *ssh.SSHClient {
+	client, err := ssh.ConnByConfig(config)
+	if err != nil {
+		fmt.Println("Error: error connecting to server （" + err.Error() + ")")
+		os.Exit(1)
+	}
+
+	return client
 }

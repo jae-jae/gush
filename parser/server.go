@@ -8,7 +8,7 @@ import (
 type ServerInfo struct {
 	Host     string `json:"host,omitempty" mapstructure:"host"`
 	User     string `json:"user,omitempty" mapstructure:"user"`
-	Port     int32  `json:"port,omitempty" mapstructure:"port"`
+	Port     int    `json:"port,omitempty" mapstructure:"port"`
 	Password string `json:"password,omitempty" mapstructure:"password"`
 	SSHKey   string `json:"ssh_key,omitempty" mapstructure:"ssh_key"`
 }

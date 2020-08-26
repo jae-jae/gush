@@ -23,6 +23,8 @@ import (
 	"os"
 )
 
+var sshClient *ssh.SSHClient
+
 // deployCmd represents the deploy command
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
@@ -54,13 +56,14 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 
-		fmt.Printf("%#v\n", serverConfig)
-		fmt.Printf("%#v\n", taskConfig)
+		//fmt.Printf("%#v\n", serverConfig)
+		//fmt.Printf("%#v\n", taskConfig)
 
 		fmt.Println("Connecting to the server...")
-		client := sshConn(serverConfig)
-		b, _ := client.Run("ls -la")
-		fmt.Println(string(b))
+		sshClient = sshConn(serverConfig)
+		//b, _ := client.Run("ls -la")
+		//fmt.Println(string(b))
+		runTask(taskConfig)
 	},
 }
 
@@ -86,4 +89,40 @@ func sshConn(config parser.ServerInfo) *ssh.SSHClient {
 	}
 
 	return client
+}
+
+func runTask(task parser.Task) {
+	for _, action := range task {
+		if action.LocalShell != "" {
+			execLocalShell(action.LocalShell)
+		}
+
+		if action.RemoteShell != "" {
+			execRemoteShell(action.RemoteShell)
+		}
+
+		if len(action.Upload) != 0 {
+			execUpload(action.Upload)
+		}
+
+		if len(action.Run) != 0 {
+			execRun(action.Run)
+		}
+	}
+}
+
+func execRun(tasks []string) {
+
+}
+
+func execUpload(upload map[string]string) {
+
+}
+
+func execRemoteShell(shell string) {
+
+}
+
+func execLocalShell(shell string) {
+
 }

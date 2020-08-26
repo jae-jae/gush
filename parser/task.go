@@ -13,7 +13,8 @@ type TaskAction struct {
 	Run         []string          `json:"run,omitempty"`
 }
 
-type Tasks map[string][]TaskAction
+type Task []TaskAction
+type Tasks map[string]Task
 
 func (t *Tasks) Parse() error {
 	tasks := viper.Get("tasks")

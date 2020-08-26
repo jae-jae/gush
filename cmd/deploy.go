@@ -20,7 +20,10 @@ import (
 	"github.com/spf13/cobra"
 	"gush/parser"
 	"gush/ssh"
+	"log"
 	"os"
+	"os/exec"
+	"strings"
 )
 
 var sshClient *ssh.SSHClient
@@ -57,7 +60,7 @@ to quickly create a Cobra application.`,
 		}
 
 		//fmt.Printf("%#v\n", serverConfig)
-		//fmt.Printf("%#v\n", taskConfig)
+		fmt.Printf("%#v\n", taskConfig)
 
 		fmt.Println("Connecting to the server...")
 		sshClient = sshConn(serverConfig)
@@ -124,5 +127,24 @@ func execRemoteShell(shell string) {
 }
 
 func execLocalShell(shell string) {
+	shell = echoCommand(shell)
+	cmd := exec.Command("/bin/sh", "-c", shell)
+	b, err := cmd.Output()
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+	fmt.Println(string(b))
+}
 
+// 回显命令
+func echoCommand(shell string) string {
+	commands := strings.Split(shell, "\n")
+	tmp := []string{}
+	for _, command := range commands {
+		if command != "" {
+			tmp = append(tmp, fmt.Sprintf("echo \"> %s\"", command), command)
+		}
+	}
+
+	return strings.Join(tmp, "\n")
 }

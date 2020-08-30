@@ -54,20 +54,16 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 
-		taskConfig, ok := parser.TaskConfig[task]
-		if !ok {
-			fmt.Println("Error: undefined task " + task)
-			os.Exit(1)
-		}
+		taskConfig := getTaskConfig(task)
 
 		//fmt.Printf("%#v\n", serverConfig)
 		fmt.Printf("%#v\n", taskConfig)
 
-		fmt.Println("Connecting to the server...")
+		color.Gray.Println("- connecting to the server...")
 		sshClient = sshConn(serverConfig)
 		//b, _ := client.Run("ls -la")
 		//fmt.Println(string(b))
-		runTask(taskConfig)
+		runTask(task, taskConfig)
 	},
 }
 
@@ -85,6 +81,16 @@ func init() {
 	// deployCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+func getTaskConfig(task string) parser.Task {
+	taskConfig, ok := parser.TaskConfig[task]
+	if !ok {
+		fmt.Println("Error: undefined task " + task)
+		os.Exit(1)
+	}
+
+	return taskConfig
+}
+
 func sshConn(config parser.ServerInfo) *ssh.SSHClient {
 	client, err := ssh.ConnByConfig(config)
 	if err != nil {
@@ -95,36 +101,44 @@ func sshConn(config parser.ServerInfo) *ssh.SSHClient {
 	return client
 }
 
-func runTask(task parser.Task) {
+func runTask(taskName string, task parser.Task) {
+	color.Gray.Println("- run task " + taskName)
 	for _, action := range task {
 		if action.LocalShell != "" {
-			color.Green.Println("[local_shell]")
+			color.Green.Printf("[%s][local_shell]\n", taskName)
 			execLocalShell(action.LocalShell)
 		}
 
 		if action.RemoteShell != "" {
-			color.Green.Println("[remote_shell]")
+			color.Green.Printf("[%s][remote_shell]\n", taskName)
 			execRemoteShell(action.RemoteShell)
 		}
 
-		if len(action.Upload) != 0 {
-			color.Green.Println("[upload]")
+		if action.Upload.Local != "" && action.Upload.Remote != "" {
+			color.Green.Printf("[%s][upload]\n", taskName)
 			execUpload(action.Upload)
 		}
 
 		if len(action.Run) != 0 {
-			color.Green.Println("[run]")
+			color.Green.Printf("[%s][run]\n", taskName)
 			execRun(action.Run)
 		}
 	}
 }
 
 func execRun(tasks []string) {
-
+	for _, task := range tasks {
+		taskConfig := getTaskConfig(task)
+		runTask(task, taskConfig)
+	}
 }
 
-func execUpload(upload map[string]string) {
-
+func execUpload(upload parser.UploadAction) {
+	color.Gray.Printf("- uploading file %s => %s \n", upload.Local, upload.Remote)
+	err := sshClient.Upload(upload.Local, upload.Remote)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 }
 
 func execRemoteShell(shell string) {
@@ -133,7 +147,7 @@ func execRemoteShell(shell string) {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-	color.Gray.Println(string(out))
+	color.Cyan.Println(string(out))
 }
 
 func execLocalShell(shell string) {

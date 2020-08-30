@@ -61,6 +61,7 @@ to quickly create a Cobra application.`,
 
 		color.Gray.Println("- connecting to the server...")
 		sshClient = sshConn(serverConfig)
+		defer sshClient.Close()
 		//b, _ := client.Run("ls -la")
 		//fmt.Println(string(b))
 		runTask(task, taskConfig)
@@ -119,6 +120,11 @@ func runTask(taskName string, task parser.Task) {
 			execUpload(action.Upload)
 		}
 
+		if action.Download.Local != "" && action.Download.Remote != "" {
+			color.Green.Printf("[%s][download]\n", taskName)
+			execDownload(action.Download)
+		}
+
 		if len(action.Run) != 0 {
 			color.Green.Printf("[%s][run]\n", taskName)
 			execRun(action.Run)
@@ -136,6 +142,14 @@ func execRun(tasks []string) {
 func execUpload(upload parser.UploadAction) {
 	color.Gray.Printf("- uploading file %s => %s \n", upload.Local, upload.Remote)
 	err := sshClient.Upload(upload.Local, upload.Remote)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+}
+
+func execDownload(download parser.DownloadAction) {
+	color.Gray.Printf("- downloading file %s => %s \n", download.Remote, download.Local)
+	err := sshClient.Download(download.Remote, download.Local)
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

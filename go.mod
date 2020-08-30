@@ -3,6 +3,7 @@ module gush
 go 1.14
 
 require (
+	github.com/gookit/color v1.2.8
 	github.com/melbahja/goph v0.3.1
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/spf13/cobra v1.0.0

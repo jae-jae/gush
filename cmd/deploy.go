@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"gush/parser"
 	"gush/ssh"
@@ -97,18 +98,22 @@ func sshConn(config parser.ServerInfo) *ssh.SSHClient {
 func runTask(task parser.Task) {
 	for _, action := range task {
 		if action.LocalShell != "" {
+			color.Green.Println("[local_shell]")
 			execLocalShell(action.LocalShell)
 		}
 
 		if action.RemoteShell != "" {
+			color.Green.Println("[remote_shell]")
 			execRemoteShell(action.RemoteShell)
 		}
 
 		if len(action.Upload) != 0 {
+			color.Green.Println("[upload]")
 			execUpload(action.Upload)
 		}
 
 		if len(action.Run) != 0 {
+			color.Green.Println("[run]")
 			execRun(action.Run)
 		}
 	}
@@ -123,7 +128,12 @@ func execUpload(upload map[string]string) {
 }
 
 func execRemoteShell(shell string) {
-
+	shell = echoCommand(shell)
+	out, err := sshClient.Run(shell)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+	color.Gray.Println(string(out))
 }
 
 func execLocalShell(shell string) {
@@ -133,7 +143,7 @@ func execLocalShell(shell string) {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-	fmt.Println(string(b))
+	color.Black.Println(string(b))
 }
 
 // 回显命令
@@ -146,5 +156,5 @@ func echoCommand(shell string) string {
 		}
 	}
 
-	return strings.Join(tmp, "\n")
+	return strings.Join(tmp, ";")
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gush/parser"
 	"gush/ssh"
 	"log"
@@ -46,7 +47,31 @@ var deployCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(deployCmd)
+	cobra.OnInitialize(initConfig)
 
+	rootCmd.Flags().StringVar(&cfgFile, "config", "", "config file (default is ./gush.yaml)")
+}
+
+func initConfig() {
+	if cfgFile == "" {
+		cfgFile = "./gush.yml"
+	}
+
+	viper.SetConfigFile(cfgFile)
+
+	viper.AutomaticEnv() // read in environment variables that match
+
+	// If a config file is found, read it in.
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("Error: error reading configuration file (" + err.Error() + ")")
+		os.Exit(1)
+	}
+	if err := parser.ParseConfig(); err != nil {
+		fmt.Println("Error: error parsing configuration file (" + err.Error() + ")")
+		os.Exit(1)
+	}
+
+	color.Gray.Println("- using config file: " + viper.ConfigFileUsed())
 }
 
 func getTaskConfig(task string) parser.Task {

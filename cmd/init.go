@@ -13,7 +13,7 @@ var initCmd = &cobra.Command{
 	Long:  `Generate configuration file.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tpl := configTemplate()
-		err := ioutil.WriteFile("./gushx.yml", []byte(tpl), 0777)
+		err := ioutil.WriteFile("./gush.yml", []byte(tpl), 0777)
 		if err != nil {
 			color.Red.Println(err.Error())
 		}

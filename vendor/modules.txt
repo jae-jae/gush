@@ -23,6 +23,8 @@ github.com/magiconair/properties
 # github.com/melbahja/goph v0.3.1
 ## explicit
 github.com/melbahja/goph
+# github.com/mitchellh/gox v1.0.1
+## explicit
 # github.com/mitchellh/mapstructure v1.1.2
 ## explicit
 github.com/mitchellh/mapstructure

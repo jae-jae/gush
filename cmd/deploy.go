@@ -13,6 +13,7 @@ import (
 	"strings"
 )
 
+var cfgFile string
 var sshClient *ssh.SSHClient
 
 // deployCmd represents the deploy command
@@ -29,6 +30,7 @@ var deployCmd = &cobra.Command{
 			task = args[0]
 		}
 
+		initConfig()
 		serverConfig, ok := parser.ServerConfig[server]
 		if !ok {
 			fmt.Println("Error: undefined server " + server)
@@ -47,7 +49,6 @@ var deployCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(deployCmd)
-	cobra.OnInitialize(initConfig)
 
 	rootCmd.Flags().StringVar(&cfgFile, "config", "", "config file (default is ./gush.yaml)")
 }

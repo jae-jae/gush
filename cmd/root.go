@@ -21,6 +21,7 @@ import (
 	"gush/parser"
 	"os"
 
+	"github.com/gookit/color"
 	"github.com/spf13/viper"
 )
 
@@ -84,5 +85,5 @@ func initConfig() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Using config file:", viper.ConfigFileUsed())
+	color.Gray.Println("- using config file: " + viper.ConfigFileUsed())
 }

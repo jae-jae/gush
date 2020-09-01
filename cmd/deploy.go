@@ -152,7 +152,8 @@ func execRemoteShell(shell string) {
 	shell = echoCommand(shell)
 	out, err := sshClient.Run(shell)
 	if err != nil {
-		log.Fatalln(err.Error())
+		color.Red.Println(string(out))
+		os.Exit(1)
 	}
 	color.Cyan.Println(string(out))
 }
@@ -160,9 +161,10 @@ func execRemoteShell(shell string) {
 func execLocalShell(shell string) {
 	shell = echoCommand(shell)
 	cmd := exec.Command("/bin/sh", "-c", shell)
-	b, err := cmd.Output()
+	b, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Fatalln(err.Error())
+		color.Red.Println(string(b))
+		os.Exit(1)
 	}
 	color.Black.Println(string(b))
 }

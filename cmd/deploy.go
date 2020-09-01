@@ -166,7 +166,7 @@ func execLocalShell(shell string) {
 		color.Red.Println(string(b))
 		os.Exit(1)
 	}
-	color.Black.Println(string(b))
+	color.Blue.Println(string(b))
 }
 
 // 回显命令

@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+	"gush/util"
 	"io/ioutil"
 )
 
@@ -15,7 +15,7 @@ var initCmd = &cobra.Command{
 		tpl := configTemplate()
 		err := ioutil.WriteFile("./gush.yml", []byte(tpl), 0777)
 		if err != nil {
-			color.Red.Println(err.Error())
+			util.Fatalln(err.Error())
 		}
 	},
 }

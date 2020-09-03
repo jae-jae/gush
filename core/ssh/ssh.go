@@ -5,7 +5,7 @@ import (
 	"github.com/melbahja/goph"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/terminal"
-	"gush/parser"
+	"gush/core/parser"
 	"strings"
 	"time"
 )

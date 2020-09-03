@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"github.com/gookit/color"
 	"github.com/spf13/cobra"
-	"os"
+	"gush/util"
 )
 
 const VERSION = "1.0"
@@ -24,8 +23,7 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		color.Red.Println(err)
-		os.Exit(1)
+		util.Fatalln(err.Error())
 	}
 }
 

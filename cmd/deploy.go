@@ -34,13 +34,10 @@ var deployCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(deployCmd)
 
-	rootCmd.Flags().StringVar(&cfgFile, "config", "", "config file (default is ./gush.yaml)")
+	deployCmd.Flags().StringVarP(&cfgFile, "config", "c", "./gush.yml", "config file")
 }
 
 func initConfig() {
-	if cfgFile == "" {
-		cfgFile = "./gush.yml"
-	}
 
 	viper.SetConfigFile(cfgFile)
 

@@ -1,6 +1,6 @@
 <h1 align="center"> GUSH </h1>
 <p align="center"> &lt;gush deploy&gt; </p>
-简易的项目自动化部署工具。
+简易的全平台项目自动化部署工具。
 
 ## 特性
 - 简单易上手

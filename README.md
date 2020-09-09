@@ -1,5 +1,12 @@
-# gush
-简易的项目部署工具
+<h1 align="center"> gush </h1>
+简易的项目自动化部署工具。
+
+## 特性
+- 简单易上手
+- 使用灵活，支持绝大部分项目部署场景
+- 全平台支持
+- 无需在服务器端部署
+
 
 ## 安装
 
@@ -36,7 +43,7 @@ tasks:
 ```
 gush deploy
 ```
-上面命令会读取当前目录下的 gush.yml 文件配置，然后连接`default` server 并执行`default` task。
+上面命令会读取当前目录下的 gush.yml 文件配置，然后通过SSH连接`default` server 并执行`default` task。
 
 也可以指定连接的 server 名称和执行的 task 名称：
 ```

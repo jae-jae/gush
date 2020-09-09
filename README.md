@@ -1,4 +1,5 @@
-<h1 align="center"> gush </h1>
+<h1 align="center"> GUSH </h1>
+<p align="center"> &lt;gush deploy&gt; </p>
 简易的项目自动化部署工具。
 
 ## 特性

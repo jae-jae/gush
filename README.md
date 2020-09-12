@@ -12,6 +12,8 @@
 
 ## 安装
 
+去 [releases](https://github.com/jae-jae/gush/releases/) 下载对应平台的二进制文件。
+
 ## 快速入门
 
 ### 在项目目录下创建 gush.yml 文件

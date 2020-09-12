@@ -159,14 +159,14 @@ task 是由多个 action(动作) 组成的。
 ...
 
 tasks:
-	task_push:
-    	- local_shell: |
-       	    cd /path/to/
-       		git push origin master
+    task_push:
+      - local_shell: |
+         cd /path/to/
+         git push origin master
     task_pull:
         - remote_shell: |
-            cd /www/
-            git pull origin master
+           cd /www/
+           git pull origin master
     default:
        -run:
         - task_push

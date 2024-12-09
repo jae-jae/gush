@@ -2,11 +2,12 @@ package deploy
 
 import (
 	"fmt"
-	"github.com/gookit/color"
-	"gush/core/parser"
-	"gush/util"
 	"os/exec"
 	"strings"
+
+	"github.com/gookit/color"
+	"github.com/jae-jae/gush/core/parser"
+	"github.com/jae-jae/gush/util"
 )
 
 func runTask(taskName string, task parser.Task) {

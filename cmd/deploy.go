@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"github.com/gookit/color"
+	"github.com/jae-jae/gush/core/deploy"
+	"github.com/jae-jae/gush/core/parser"
+	"github.com/jae-jae/gush/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gush/core/deploy"
-	"gush/core/parser"
-	"gush/util"
 )
 
 var cfgFile string

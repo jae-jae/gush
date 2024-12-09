@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"gush/util"
 	"io/ioutil"
+
+	"github.com/jae-jae/gush/util"
+	"github.com/spf13/cobra"
 )
 
 // initCmd represents the init command

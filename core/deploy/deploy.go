@@ -2,9 +2,9 @@ package deploy
 
 import (
 	"github.com/gookit/color"
-	"gush/core/parser"
-	"gush/core/ssh"
-	"gush/util"
+	"github.com/jae-jae/gush/core/parser"
+	"github.com/jae-jae/gush/core/ssh"
+	"github.com/jae-jae/gush/util"
 )
 
 var sshClient *ssh.SSHClient

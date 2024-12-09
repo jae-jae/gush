@@ -12,6 +12,14 @@
 
 ## 安装
 
+### 使用 go install 安装
+
+```bash
+go install github.com/jae-jae/gush@latest
+```
+
+### 使用二进制文件安装
+
 去 [releases](https://github.com/jae-jae/gush/releases/) 下载对应平台的二进制文件。
 
 ## 快速入门
@@ -53,7 +61,7 @@ tasks:
 gush deploy
 ```
 
-上面命令会读取当前目录下的 gush.yml 文件配置，然后通过SSH连接`default` server 并执行`default` task。
+上面命令会读取当前目录下的 gush.yml 文件配置，然后通过 SSH 连接`default` server 并执行`default` task。
 
 也可以指定连接的 server 名称和执行的 task 名称：
 
@@ -62,7 +70,6 @@ gush deploy <task> <server>
 ```
 
 `gush deploy` 命令等价于执行 `gush deploy default default`.
-
 
 如果 gush.yml 文件不在当前目录，可以指定 gush.yml 文件路径:
 
@@ -112,6 +119,7 @@ tasks:
 ## gush.yml 文件详解
 
 gush.yml 文件用于描述服务器信息(servers)和部署任务(tasks)，结构如下：
+
 ```
 servers:
   server1:
@@ -126,37 +134,45 @@ tasks:
   	...
 
 ```
+
 `servers`配置项下用于配置多套 server(服务器) 信息，`tasks`配置项下用于配置多个 task(任务)，在执行`gush deploy`部署命令时可以指定 server 和 task,如:
+
 ```
 gush deploy task1 server2
 ```
+
 上述命令将在 server2 服务器上执行 task1 部署任务。
 
 ### server 配置
+
 server 配置项：
+
 - **host**：服务器地址
-- **user**: 服务器SSH登录用户名
-- **port**: 服务器SSH登录端口号
-- **password**：可选，服务器SSH登录密码，如果不配置则在执行部署命令时会要求从命令行输入密码
-- **ssh_key**：可选，用于免密登录服务器的SSH私钥
+- **user**: 服务器 SSH 登录用户名
+- **port**: 服务器 SSH 登录端口号
+- **password**：可选，服务器 SSH 登录密码，如果不配置则在执行部署命令时会要求从命令行输入密码
+- **ssh_key**：可选，用于免密登录服务器的 SSH 私钥
 
 ### task 配置
 
 task 是由多个 action(动作) 组成的。
 
 以下是全部可用的 action ：
+
 - **local_shell**：字符串，在本地执行 shell 指令
 - **remote_shell**：字符串，在远程服务器上执行 shell 指令
 - **upload**：对象，上传本地文件到远程服务器
-	- **local**：字符串，本地文件路径
-	- **remote**：字符串，远程文件路径
+  - **local**：字符串，本地文件路径
+  - **remote**：字符串，远程文件路径
 - **download**：对象，下载远程服务器上的文件到本地
-	- **remote**：字符串，远程文件路径
+  - **remote**：字符串，远程文件路径
     - **local**：字符串，本地文件路径
 - **run**：数组，执行其它多个 task
 
-#### run action详解
+#### run action 详解
+
 为了可以更加细致的控制部署任务，可以将任务进行细化拆分，并可以组合多个任务去执行，如：
+
 ```
 ...
 
@@ -174,17 +190,23 @@ tasks:
         - task_push
         - task_pull
 ```
+
 - 只执行 `task_pull` 部署任务:
+
 ```
 gush deploy task_pull
 ```
+
 - 执行 `default` 部署任务，它会先执行任务`task_push`，然后执行`task_pull`:
+
 ```
 gush deploy default
 ```
 
 ## 相似项目
+
 - [Envoy](https://laravel.com/docs/7.x/envoy)
 
 ## License
+
 Apache

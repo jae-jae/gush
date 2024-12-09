@@ -2,12 +2,13 @@ package ssh
 
 import (
 	"fmt"
+	"strings"
+	"time"
+
+	"github.com/jae-jae/gush/core/parser"
 	"github.com/melbahja/goph"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/terminal"
-	"gush/core/parser"
-	"strings"
-	"time"
 )
 
 type SSHClient struct {

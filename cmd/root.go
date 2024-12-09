@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
+
+	"github.com/jae-jae/gush/util"
 	"github.com/spf13/cobra"
-	"gush/util"
 )
 
 const VERSION = "1.0"
